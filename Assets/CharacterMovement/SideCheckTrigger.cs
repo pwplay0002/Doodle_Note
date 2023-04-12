@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class SideCheckTrigger : MonoBehaviour
 {
-    private CharacterColorState ccs;
+    [SerializeField] private CrayonUI Crayon_UI;
 
     void Start()
     {
-        ccs = GetComponent<CharacterColorState>();
+        Crayon_UI = GameObject.Find("CrayonButton").GetComponent<CrayonUI>();
     }
+
 
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.tag == "Line")
+        if (other.CompareTag("OriginLine") || Crayon_UI.Line_tag.ToString() == other.tag)
         {
             GameObject.Find("Player").GetComponent<JCharacterController>().is_side = true;
         }
@@ -21,7 +22,7 @@ public class SideCheckTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Line")
+        if (other.CompareTag("OriginLine") || Crayon_UI.Line_tag.ToString() == other.tag)
         {
             GameObject.Find("Player").GetComponent<JCharacterController>().is_side = false;
         }
