@@ -11,19 +11,24 @@ public class LeverController : MonoBehaviour
     private bool is_change = false;
 
     private Vector3 ChangeLine;
-    private Vector3 OriLine; 
+    private Vector3 OriLine;
+
+    private Animator Anim;
+
 
     void Start()
     {
         lineRenderer = lineObject.GetComponent<LineRenderer>();
         ChangeLine = new Vector3(lineRenderer.GetPosition(0).y, lineRenderer.GetPosition(0).x * -1, 0);
         OriLine = new Vector3(lineRenderer.GetPosition(0).x, lineRenderer.GetPosition(0).y, 0);
+        Anim = GetComponent<Animator>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !is_visit)
+        if (other.CompareTag("Box") && !is_visit)
         {
+            Anim.SetBool("is_ButtonDown", true);
             is_visit = true;
             RotateLine();
         }
@@ -31,9 +36,11 @@ public class LeverController : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && is_visit)
+        if (other.CompareTag("Box") && is_visit)
         {
+            Anim.SetBool("is_ButtonDown", false);
             is_visit = false;
+            RotateLine();
         }
     }
 
